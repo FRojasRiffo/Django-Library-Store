@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'Images/Book.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'CSS/Styles.css'%}">
+</head>
+<body>
+    <div class="sticky">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'Images/navbar-icon.jpg' %}" id="nav-icon" alt=""></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Inicio de sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Registrar usuario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Carrito de compras</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder=" Buscar libro..." aria-label="Busqueda">
+                  <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
+              </div>
+            </div>
+          </nav>
+      </div>
+
+      <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{% static 'Images/Fantasy-Slide.jpg' %}" class="d-block" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Fantasía</h5>
+              <p>Sumérgete en un mundo de magia y aventuras con nuestra selección de libros de fantasía. Desde épicos viajes por reinos mágicos hasta intrigantes historias de criaturas mitológicas, nuestros libros te transportarán a mundos inimaginables donde los límites de la realidad se desdibujan.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'Images/Mystery-Slide.jpeg' %}" class="d-block" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Misterio</h5>
+              <p>Descubre el suspense y la emoción con nuestros libros de misterio. Desde intrigantes casos de detectives hasta oscuros secretos que desafían la lógica, nuestras historias te mantendrán al borde de tu asiento mientras desentrañas los enigmas más intrigantes.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'Images/SciFi-Slide.jpg' %}" class="d-block" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Ciencia Ficción</h5>
+              <p>Explora el futuro y más allá con nuestra colección de libros de ciencia ficción. Desde emocionantes aventuras espaciales hasta distopías visionarias, nuestros libros te llevarán a mundos futuristas llenos de tecnología avanzada, alienígenas fascinantes y dilemas éticos que desafían la mente humana.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

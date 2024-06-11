@@ -1,0 +1,42 @@
+<!-- shop/carrito.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+    {% load multiply %}
+
+    <h1>Carrito de Compras</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in carrito %}
+            <tr>
+                <td>{{ item.title }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price|multiply:item.quantity }}</td>
+                <td>
+                    <a href="{% url 'eliminar_del_carrito' item.id %}">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Total: {{ total }}</h2>
+    <a href="/shop">Seguir Comprando</a>
+    <a href="{% url 'limpiar_carrito' %}">Limpiar Carrito</a>
+</body>
+</html>
