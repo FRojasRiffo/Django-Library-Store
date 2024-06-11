@@ -43,24 +43,30 @@
 
       <div class="container">
         <h1>Catalogue</h1>
-      </div>
-
-      {% if books %}
-      {% for book in books %}
-      <div class="container">
+    </div>
+    
+    {% if books %}
+    {% for book in books %}
+    <div class="container">
         <div class="listProduct">
             <div class="item">
-              <p>{{ book.title }}</p>
-              <p>{{ book.price }}</p>
+                <img src="{{ book.cover_image.url }}" alt="{{ book.title }} cover image">
+                <p>{{ book.title }}</p>
+                <p>{{ book.price }}</p>
+                <p><a href="{% url 'detalle_libro' book.id %}">Detalle</a></p>
+                <p><a href="{% url 'eliminar_libro' book.id %}">Eliminar</a></p>
+                <p><a href="{% url 'actualizar_libro' book.id %}">Actualizar</a></p>
             </div>
         </div>
-      </div>
-      {% endfor %}
-      {% else %}
-      <div>
-          No hay libros
-      </div>    
-      {% endif %}  
+    </div>
+    {% endfor %}
+    {% else %}
+    <div>
+        No hay libros
+    </div>    
+    {% endif %}
+
+    <div><a href="{% url 'agregar_libro' %}">Agregar libro</a></div>
       <!-- <div>
         {% if books %}
         {% for book in books %}

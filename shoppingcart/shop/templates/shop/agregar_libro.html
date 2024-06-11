@@ -8,10 +8,10 @@
 <body>
     <h1>Agregar Libro</h1>
 
-    <form action="/shop/agregar" method="post">
+    <form action="{% url 'agregar_libro' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
-        {{formulario.as_table}}
+            {{formulario.as_table}}
         </table>
         <input type="submit" value="Guardar">
     </form>

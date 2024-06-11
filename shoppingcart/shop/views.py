@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
 from .forms import BookForm
 from .models import Book
@@ -19,9 +19,9 @@ def detalle_libro(request, id_book):
     return render(request, 'shop/detalle_libro.html', contexto)
 
 def eliminar_libro(request, id_book):
-    libro = Book.objects.get(id=id_book)
+    libro = get_object_or_404(Book, id=id_book)
     libro.delete()
-    return redirect('/shop')
+    return redirect('/shop/catalogo')
 
 def agregar_libro(request):
     if request.method == "GET":
@@ -29,24 +29,25 @@ def agregar_libro(request):
         contexto = {'formulario': formulario}
         return render(request, 'shop/agregar_libro.html', contexto)
     elif request.method == "POST":
-        formulario = BookForm(request.POST)
+        formulario = BookForm(request.POST, request.FILES)
         if formulario.is_valid():
             formulario.save()
-            return redirect('/shop')
+            return redirect('/shop/catalogo')
     else:
         return redirect('/shop')
 
 def actualizar_libro(request, id_book):
+    libro = Book.objects.get(id=id_book)
     if request.method == "GET":
-        resultado = Book.objects.get(id=id_book)
-        contexto = {"book": resultado}
+        contexto = {"book": libro}
         return render(request, 'shop/actualizar_libro.html', contexto)
     if request.method == "POST":
-        libro = Book.objects.get(id=id_book)
         title = request.POST["txt_title"]
         price = request.POST["int_price"]
         libro.title = title
         libro.price = price
+        if 'cover_image' in request.FILES:
+            libro.cover_image = request.FILES['cover_image']
         libro.save()
         return redirect('/shop')
     else:
