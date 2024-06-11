@@ -8,6 +8,11 @@ def index(request):
     contexto = {"books": resultado}
     return render(request, 'shop/index.html', contexto)
 
+def catalogue(request):
+    resultado = Book.objects.all()
+    contexto = {"books": resultado}
+    return render(request, 'shop/catalogue.html', contexto)
+
 def detalle_libro(request, id_book):
     resultado = Book.objects.get(id=id_book)
     contexto = {"book": resultado}
