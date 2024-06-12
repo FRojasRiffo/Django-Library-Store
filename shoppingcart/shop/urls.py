@@ -14,8 +14,8 @@ urlpatterns = [
     path('agregar_al_carrito/<int:id_book>/', views.agregar_al_carrito, name='agregar_al_carrito'),
     path('eliminar_del_carrito/<int:id_book>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
     path('limpiar_carrito/', views.limpiar_carrito, name='limpiar_carrito'),
-    path('login',views.login, name="login")
-
+    path('login',views.login, name="login"),
+    path('register',views.register,name="register"),
 ]
 
 if settings.DEBUG:

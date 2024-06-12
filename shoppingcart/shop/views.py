@@ -16,6 +16,9 @@ def catalogue(request):
 def login(request):
     return render(request, 'shop/login.html')
 
+def register(request):
+    return render(request, 'shop/register.html')
+
 def detalle_libro(request, id_book):
     resultado = Book.objects.get(id=id_book)
     contexto = {"book": resultado}
@@ -82,7 +85,7 @@ def agregar_al_carrito(request, id_book):
         })
     
     request.session['carrito'] = carrito
-    return redirect('/shop')
+    return redirect('/shop/catalogo')
 
 def eliminar_del_carrito(request, id_book):
     carrito = request.session.get('carrito', [])

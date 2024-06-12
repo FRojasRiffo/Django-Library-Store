@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogue</title>
+    <title>Register</title>
     <link rel="icon" type="image/x-icon" href="{% static 'Images/Book.png' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'CSS/Styles.css'%}">
 </head>
 <body>
+    
     <div class="sticky">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
@@ -41,37 +42,36 @@
           </nav>
       </div>
 
-      <div class="container">
-        <h1>Catálogo</h1>
-    </div>
+      <form id="registerForm" action="">
+        <div class="imgcontainer">
+            <img src="{% static 'Images/Register-Avatar.jpg' %}" alt="Avatar" class="avatar">
+          </div>
     
-    {% if books %}
-    {% for book in books %}
-    <div class="container">
-        <div class="listProduct">
-            <div class="item">
-                <img src="{{ book.cover_image.url }}" alt="{{ book.title }} cover image">
-                <h2>{{ book.title }}</h2>
-                <div class="price">{{ book.price }}</div>
-                <p><a href="{% url 'detalle_libro' book.id %}">Detalle</a></p>
-                <p><a href="{% url 'eliminar_libro' book.id %}">Eliminar</a></p>
-                <p><a href="{% url 'actualizar_libro' book.id %}">Actualizar</a></p>
-                <form action="{% url 'agregar_al_carrito' book.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="addCart">Agregar al carrito</button>
-                </form>
-            </div>
+        <div class="container">
+          <h1>Registro</h1>
+          <hr>
+          <label for="usuario"><b>Nombre de Usuario</b></label>
+          <input type="text" placeholder="Ingrese Su Nombre de Usuario" name="usuario" id="usuario"> 
+          <label for="email"><b>Correo electrónico</b></label>
+          <input type="text" placeholder="Ingrese correo electrónico" name="email" id="email">
+    
+          <label for="psw"><b>Contraseña</b></label>
+          <input type="password" placeholder="Ingrese contraseña" name="psw" id="psw">
+    
+          <label for="psw-repeat"><b>Vuelva a ingresar su contraseña</b></label>
+          <input type="password" placeholder="Ingrese contraseña" name="psw-repeat" id="psw-repeat" >
+          <hr>
+    
+          <p>Al crear su cuenta acepta nuestros <a class="terminos">Terminos y Condiciones</a>.</p>
+          <button type="submit" class="registerbtn">Registrar</button>
         </div>
-    </div>
-    {% endfor %}
-    {% else %}
-    <div>
-        No hay libros
-    </div>    
-    {% endif %}
+    
+        <div class="container signin">
+          <p>¿Ya tienes una cuenta? <a class="login_p" href="login.html">Inicio de sesión</a>.</p>
+        </div>
+      </form>
 
-    <div><a href="{% url 'agregar_libro' %}">Agregar libro</a></div>
-
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>
