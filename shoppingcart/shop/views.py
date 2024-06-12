@@ -13,6 +13,9 @@ def catalogue(request):
     contexto = {"books": resultado}
     return render(request, 'shop/catalogue.html', contexto)
 
+def login(request):
+    return render(request, 'shop/login.html')
+
 def detalle_libro(request, id_book):
     resultado = Book.objects.get(id=id_book)
     contexto = {"book": resultado}
