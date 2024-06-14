@@ -2,12 +2,14 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
 from .forms import BookForm
 from .models import Book
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     resultado = Book.objects.all()
     contexto = {"books": resultado}
     return render(request, 'shop/index.html', contexto)
 
+@login_required
 def catalogue(request):
     resultado = Book.objects.all()
     contexto = {"books": resultado}
