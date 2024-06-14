@@ -41,13 +41,13 @@
           </nav>
       </div>
 
-    <h2>Log in</h2>
-    <form method="post">
+    <h2 id="log-title">Inicio de Sesión</h2>
+    <form class="login-form" method="post">
         {% csrf_token %}
         <div class="login">
-        {{form.as_p}}
+            {{form.as_p}}
         </div>
-        <button type="submit">Log in</button>
+            <button type="submit" class="btn-login">Iniciar Sesión</button>
     </form>
 </body>
 </html>
