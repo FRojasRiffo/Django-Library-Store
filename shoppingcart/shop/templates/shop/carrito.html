@@ -25,19 +25,21 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'catalogue' %}">Catálogo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Inicio de sesión</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'register' %}">Registrar usuario</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'carrito' %}">Carrito de compras</a>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder=" Buscar libro..." aria-label="Busqueda">
-                  <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
+                {% if user.is_authenticated %}
+                    <div class="user">Bienvenido, {{ user.get_username }}.</div>
+                {% else %}
+                <div>
+                    <a href="{% url 'login' %}">
+                        <img src="{% static 'Images/enter.png' %}" width="40" alt="Login">
+                    </a>
+                </div>
+                {% endif %}
               </div>
             </div>
           </nav>
@@ -45,35 +47,63 @@
 
     {% load multiply %}
 
-    <h1>Carrito de Compras</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Total</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in carrito %}
-            <tr>
-                <td>{{ item.title }}</td>
-                <td>{{ item.price }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.price|multiply:item.quantity }}</td>
-                <td>
-                    <a href="{% url 'eliminar_del_carrito' item.id %}">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h2>Total: {{ total }}</h2>
+    <h1 class="cart-title">Carrito de Compras</h1>
     
-    <a href="{% url 'catalogue' %}">Seguir Comprando</a>
-    <a href="{% url 'limpiar_carrito' %}">Limpiar Carrito</a>
+    <div class="container-fluid">
+        <div class="table-responsive-xxl">
+            <table class="table table-bordered text-center align-middle custom-table">
+                <thead class="table-light">
+                    <tr>
+                        <th></th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in carrito %}
+                    <tr>
+                        <td>
+                            <div class="cart-product d-flex justify-content-center align-items-center">
+                                {% if item.cover_image %}
+                                    <img src="{{ item.cover_image }}" alt="{{ item.title }}" class="cart-image img-fluid" style="width: 150px; height: 250px;">
+                                {% else %}
+                                    <span>Imagen no disponible</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price|multiply:item.quantity }}</td>
+                        <td>
+                            <a href="{% url 'eliminar_del_carrito' item.id %}">
+                                <img src="{% static 'Images/trash.png' %}" width="16" alt="Delete">
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div> 
+    
+    <h2 class="cart-total">Total estimado: {{ total }}</h2>
+    
+
+    <div class="cart-buttons">
+    <form action="{% url 'catalogue' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="cart-btn">Seguir comprando</button>
+    </form>
+
+    <form action="{% url 'limpiar_carrito' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="cart-btn">Vaciar carrito</button>
+    </form>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -9,7 +9,6 @@ def index(request):
     contexto = {"books": resultado}
     return render(request, 'shop/index.html', contexto)
 
-@login_required
 def catalogue(request):
     resultado = Book.objects.all()
     contexto = {"books": resultado}
@@ -83,7 +82,8 @@ def agregar_al_carrito(request, id_book):
             'id': libro.id,
             'title': libro.title,
             'price': libro.price,
-            'quantity': 1
+            'quantity': 1,
+            'cover_image': libro.cover_image.url if libro.cover_image else None
         })
     
     request.session['carrito'] = carrito

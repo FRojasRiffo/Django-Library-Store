@@ -23,23 +23,32 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'catalogue' %}">Catálogo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Inicio de sesión</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'register' %}">Registrar usuario</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'carrito' %}">Carrito de compras</a>
                     </li>
+
                 </ul>
-                <form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder=" Buscar libro..." aria-label="Busqueda">
-                  <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
+
+                {% if user.is_authenticated %}
+                    <div class="user">Bienvenido, {{ user.get_username }}.</div>
+                {% else %}
+                <div>
+                    <a href="{% url 'login' %}">
+                        <img src="{% static 'Images/enter.png' %}" width="40" alt="Login">
+                    </a>
+                </div>
+                {% endif %}
+
               </div>
             </div>
           </nav>
       </div>
+
+    <div class="imgcontainer">
+        <img src="{% static 'Images/Login-Avatar.jpg' %}" alt="Avatar" class="avatar">
+    </div>
 
     <h2 id="log-title">Inicio de Sesión</h2>
     <form class="login-form" method="post">
@@ -49,5 +58,8 @@
         </div>
             <button type="submit" class="btn-login">Iniciar Sesión</button>
     </form>
+    
+    
+
 </body>
 </html>
