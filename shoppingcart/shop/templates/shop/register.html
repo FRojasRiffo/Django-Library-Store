@@ -31,13 +31,19 @@
                     </li>
                 </ul>
                 {% if user.is_authenticated %}
-                    <div class="user">Bienvenido, {{ user.get_username }}.</div>
+                  <div>Bienvenido, {{ user.get_username }}.</div>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                      {% csrf_token %}
+                      <button type="submit" class="logout-button">
+                        <img src="{% static 'Images/log-out.png' %}" width="40" alt="Logout">
+                      </button>
+                    </form>
                 {% else %}
-                <div>
-                  <a href="{% url 'login' %}">
+                  <div>
+                    <a href="{% url 'login' %}">
                       <img src="{% static 'Images/enter.png' %}" width="40" alt="Login">
-                  </a>
-              </div>
+                    </a>
+                  </div>
                 {% endif %}
               </div>
             </div>

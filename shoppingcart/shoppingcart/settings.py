@@ -71,6 +71,7 @@ TEMPLATES = [
     },
 ]
 LOGIN_REDIRECT_URL ="/shop"
+LOGOUT_REDIRECT_URL ="/shop"
 
 
 WSGI_APPLICATION = 'shoppingcart.wsgi.application'
