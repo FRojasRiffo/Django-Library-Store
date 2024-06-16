@@ -52,8 +52,10 @@ def actualizar_libro(request, id_book):
     if request.method == "POST":
         title = request.POST["txt_title"]
         price = request.POST["int_price"]
+        description = request.POST["txt_description"]
         libro.title = title
         libro.price = price
+        libro.description = description
         if 'cover_image' in request.FILES:
             libro.cover_image = request.FILES['cover_image']
         libro.save()
