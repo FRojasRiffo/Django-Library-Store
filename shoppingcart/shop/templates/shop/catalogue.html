@@ -60,22 +60,27 @@
                 </div>
                 <h2>{{ book.title }}</h2>
                 <div class="price">{{ book.price }}</div>
-                <p><a href="{% url 'detalle_libro' book.id %}">Detalle</a></p>
+
+                {% if not user.is_superuser %}
+                    <p><a href="{% url 'detalle_libro' book.id %}">Detalle</a></p>
+                {% endif %}
 
                 {% if user.is_authenticated and user.is_superuser %}
                     <p><a href="{% url 'eliminar_libro' book.id %}">Eliminar</a></p>
                     <p><a href="{% url 'actualizar_libro' book.id %}">Actualizar</a></p>
                 {% endif %}
 
-                <form action="{% url 'agregar_al_carrito' book.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="addCart">Agregar al carrito</button>
-                </form>
+                {% if not user.is_superuser %}
+                    <form action="{% url 'agregar_al_carrito' book.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="addCart">Agregar al carrito</button>
+                    </form>
+                {% endif %}
             </div>
         {% endfor %}
 
     </div>
-    
+
     {% else %}
         <p>No books available.</p>
     {% endif %}

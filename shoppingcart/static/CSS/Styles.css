@@ -37,33 +37,6 @@ body{
 
 /* User Login */
 
-.login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: right;
-}
-
-button.btn-login{
-  background-color: #353432;
-  color: #eee;
-  padding: 5px 10px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-#log-title{
-  text-align: center;
-  margin-top: 1%;
-  margin-bottom: 1%;
-}
-
-.login{
-  display: grid;
-  justify-content: center;
-}
 
 /* Carousel */
 
@@ -156,6 +129,8 @@ button.btn-login{
 
 .cart-total, .cart-title{
   text-align: center;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
 
 .cart-buttons{
@@ -171,7 +146,7 @@ button.btn-login{
     background-color: #e3dcd9; /* Cell background color */
 }
 
-/* Login */
+/* Login & Register*/
 
 .imgcontainer{
 text-align: center;
@@ -193,3 +168,36 @@ text-align: center;
   margin: 1%;
 }
 
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: right;
+}
+
+button.btn-login, button.btn-register{
+  background-color: #353432;
+  color: #eee;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.login-title, .register-title{
+  text-align: center;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.login ,.register{
+  display: grid;
+  justify-content: center;
+}
+
+.center{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

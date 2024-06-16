@@ -85,10 +85,18 @@
                         <td>{{ item.quantity }}</td>
                         <td>{{ item.price|multiply:item.quantity }}</td>
                         <td>
-                            <a href="{% url 'eliminar_del_carrito' item.id %}">
-                                <img src="{% static 'Images/trash.png' %}" width="16" alt="Delete">
-                            </a>
+                            <form action="{% url 'agregar_al_carrito' item.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="from_cart" value="true">
+                                <button type="submit" class="btn btn-primary btn-sm">Agregar uno más</button>
+                            </form>
+                            <form action="{% url 'eliminar_del_carrito' item.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="from_cart" value="true">
+                                <button type="submit" class="btn btn-warning btn-sm">Quitar uno</button>
+                            </form>    
                         </td>
+                        
                     </tr>
                     {% endfor %}
                 </tbody>

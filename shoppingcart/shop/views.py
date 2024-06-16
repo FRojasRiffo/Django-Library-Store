@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
-from .forms import BookForm
+from .forms import BookForm, RegistrationForm
 from .models import Book
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
     resultado = Book.objects.all()
@@ -56,9 +57,9 @@ def actualizar_libro(request, id_book):
         if 'cover_image' in request.FILES:
             libro.cover_image = request.FILES['cover_image']
         libro.save()
-        return redirect('/shop')
+        return redirect('/shop/catalogo')
     else:
-        return redirect('/shop')
+        return redirect('/shop/catalogo')
 
 def carrito(request):
     carrito = request.session.get('carrito', [])
@@ -87,14 +88,33 @@ def agregar_al_carrito(request, id_book):
         })
     
     request.session['carrito'] = carrito
+    
+    if 'from_cart' in request.POST:
+        return redirect('/shop/carrito')
     return redirect('/shop/catalogo')
 
 def eliminar_del_carrito(request, id_book):
     carrito = request.session.get('carrito', [])
-    carrito = [item for item in carrito if item['id'] != id_book]
+    for item in carrito:
+        if item['id'] == id_book:
+            item['quantity'] -= 1
+            if item['quantity'] <= 0:
+                carrito.remove(item)
+            break
     request.session['carrito'] = carrito
     return redirect('/shop/carrito')
-
+    
 def limpiar_carrito(request):
     request.session['carrito'] = []
     return redirect('/shop/carrito')
+
+def registrar_usuario(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/shop')
+    else:
+        form = RegistrationForm()
+    
+    return render(request, 'shop/register.html', {'form': form})

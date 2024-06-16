@@ -15,7 +15,7 @@ urlpatterns = [
     path('eliminar_del_carrito/<int:id_book>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
     path('limpiar_carrito/', views.limpiar_carrito, name='limpiar_carrito'),
     path('login',views.login, name="login"),
-    path('register',views.register,name="register"),
+    path('register/', views.registrar_usuario, name='register'),
 ]
 
 if settings.DEBUG:

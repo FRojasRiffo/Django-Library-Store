@@ -48,36 +48,38 @@
               </div>
             </div>
           </nav>
-      </div>
+    </div>
 
-      <form id="registerForm" action="">
-        <div class="imgcontainer">
-            <img src="{% static 'Images/Register-Avatar.jpg' %}" alt="Avatar" class="avatar">
+    <div class="imgcontainer">
+      <img src="{% static 'Images/Register-Avatar.jpg' %}" alt="Avatar" class="avatar">
+    </div>
+
+    <h2 class="register-title">Registrar nuevo usuario</h2>
+
+    <div class="register">
+      <form class="register-form" action="{% url 'register' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="{{ forms.username.id_for_label }}">Nombre de usuario:</label>
+            {{ form.username }}
           </div>
-    
-        <div class="container">
-          <h1>Registro</h1>
-          <hr>
-          <label for="usuario"><b>Nombre de Usuario</b></label>
-          <input type="text" placeholder="Ingrese Su Nombre de Usuario" name="usuario" id="usuario"> 
-          <label for="email"><b>Correo electrónico</b></label>
-          <input type="text" placeholder="Ingrese correo electrónico" name="email" id="email">
-    
-          <label for="psw"><b>Contraseña</b></label>
-          <input type="password" placeholder="Ingrese contraseña" name="psw" id="psw">
-    
-          <label for="psw-repeat"><b>Vuelva a ingresar su contraseña</b></label>
-          <input type="password" placeholder="Ingrese contraseña" name="psw-repeat" id="psw-repeat" >
-          <hr>
-    
-          <p>Al crear su cuenta acepta nuestros <a class="terminos">Terminos y Condiciones</a>.</p>
-          <button type="submit" class="registerbtn">Registrar</button>
-        </div>
-    
-        <div class="container signin">
-          <p>¿Ya tienes una cuenta? <a class="login_p" href="login.html">Inicio de sesión</a>.</p>
+          <div class="form-group">
+            <label for="{{ forms.email.id_for_label}}">Correo electrónico:</label>
+            {{ form.email }}
+          </div>
+          <div class="form-group">
+            <label for="{{ forms.password1.id_for_label }}">Contraseña:</label>
+            {{ form.password1 }}
+          </div>
+          <div class="form-group">
+            <label for="{{ forms.password2.id_for_label }}">Vuelva a ingresar su contraseña:</label>
+            {{ form.password2 }}
+          </div>
+          <div class="center">
+          <button type="submit" class="btn-register">Registrarse</button>
         </div>
       </form>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
