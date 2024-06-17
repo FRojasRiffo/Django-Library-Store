@@ -55,15 +55,19 @@
 
         {% for book in books %}
             <div class="book-item">
-                <div class="cover">
-                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }} cover image">
-                </div>
+              {% if book.cover_image %}
+              <div class="cover">
+                  <img src="{{ book.cover_image.url }}" alt="{{ book.title }} cover image">
+              </div>
+          {% else %}
+              <div class="cover">
+                  <img src="{% static 'Images/no-cover.jpg' %}" alt="No cover">
+              </div>
+          {% endif %}
                 <h2>{{ book.title }}</h2>
                 <div class="price">{{ book.price }}</div>
 
-                {% if not user.is_superuser %}
-                    <p><a href="{% url 'detalle_libro' book.id %}">Detalle</a></p>
-                {% endif %}
+                <p><a href="{% url 'detalle_libro' book.id %}">Detalle</a></p>
 
                 {% if user.is_authenticated and user.is_superuser %}
                     <p><a href="{% url 'eliminar_libro' book.id %}">Eliminar</a></p>
