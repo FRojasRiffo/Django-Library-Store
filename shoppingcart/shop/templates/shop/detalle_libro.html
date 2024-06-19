@@ -50,9 +50,11 @@
     </div>
 
     <div class="product-detail">
+        {% if book.cover_image %}
         <div class="detail-img">
             <img src="{{ book.cover_image.url }}" alt="{{ item.title }}" class="cart-image img-fluid" style="width: 150px; height: 250px;">
         </div>
+        {% endif %}
         <h1>Título: {{ book.title }}</h1>
         <h2>Precio: {{ book.price }}</h2>
         <h3>Descripción: {{book.description}}</h3>
