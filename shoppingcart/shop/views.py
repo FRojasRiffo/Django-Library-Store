@@ -32,17 +32,19 @@ def eliminar_libro(request, id_book):
     return redirect('/shop/catalogo')
 
 def agregar_libro(request):
-    if request.method == "GET":
-        formulario = BookForm()
-        contexto = {'formulario': formulario}
-        return render(request, 'shop/agregar_libro.html', contexto)
-    elif request.method == "POST":
-        formulario = BookForm(request.POST, request.FILES)
-        if formulario.is_valid():
-            formulario.save()
-            return redirect('/shop/catalogo')
-    else:
-        return redirect('/shop')
+    if request.user.is_authenticated and request.user.is_superuser:
+        if request.method == "GET":
+            formulario = BookForm()
+            contexto = {'formulario': formulario}
+            return render(request, 'shop/agregar_libro.html', contexto)
+        elif request.method == "POST":
+            formulario = BookForm(request.POST, request.FILES)
+            if formulario.is_valid():
+                formulario.save()
+                return redirect('/shop/catalogo')
+        else:
+            return redirect('/shop')
+    return redirect('/shop')
 
 def actualizar_libro(request, id_book):
     libro = Book.objects.get(id=id_book)
