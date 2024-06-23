@@ -57,22 +57,22 @@
     <h2 class="register-title">Registrar nuevo usuario</h2>
 
     <div class="register">
-      <form class="register-form" action="{% url 'register' %}" method="post">
+      <form class="register-form" action="{% url 'register' %}" method="post" onsubmit="return validateForm()">
           {% csrf_token %}
           <div class="form-group">
-            <label for="{{ forms.username.id_for_label }}">Nombre de usuario:</label>
+            <label for="{{ form.username.id_for_label }}">Nombre de usuario:</label>
             {{ form.username }}
           </div>
           <div class="form-group">
-            <label for="{{ forms.email.id_for_label}}">Correo electrónico:</label>
+            <label for="{{ form.email.id_for_label }}">Correo electrónico:</label>
             {{ form.email }}
           </div>
           <div class="form-group">
-            <label for="{{ forms.password1.id_for_label }}">Contraseña:</label>
+            <label for="{{ form.password1.id_for_label }}">Contraseña:</label>
             {{ form.password1 }}
           </div>
           <div class="form-group">
-            <label for="{{ forms.password2.id_for_label }}">Vuelva a ingresar su contraseña:</label>
+            <label for="{{ form.password2.id_for_label }}">Vuelva a ingresar su contraseña:</label>
             {{ form.password2 }}
           </div>
           <div class="center">
@@ -82,6 +82,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'JS/registerValidations.js' %}"></script>
     
 </body>
 </html>

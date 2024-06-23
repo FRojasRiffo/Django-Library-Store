@@ -1,7 +1,7 @@
 from django.db import models
 import os
+from django import forms
 
-# Create your models here.
 class Book(models.Model):
     title = models.CharField(max_length=100)
     price = models.PositiveIntegerField()
@@ -11,11 +11,11 @@ class Book(models.Model):
     def __str__(self):
         return self.title
     
-    def delete(self):
+    def delete(self, *args, **kwargs):
         if self.cover_image:
             if os.path.isfile(self.cover_image.path):
                 os.remove(self.cover_image.path)
-        super().delete()
+        super().delete(*args, **kwargs)
 
 class User(models.Model):
     username = models.CharField(max_length=50)

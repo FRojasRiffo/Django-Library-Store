@@ -13,78 +13,89 @@
     <div class="sticky">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-              <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'Images/navbar-icon.jpg' %}" id="nav-icon" alt=""></a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'catalogue' %}">Catálogo</a>
-                    </li>                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Registrar usuario</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'carrito' %}">Carrito de compras</a>
-                    </li>
-                </ul>
-                {% if user.is_authenticated %}
-                  <div>Bienvenido, {{ user.get_username }}.</div>
-                    <form action="{% url 'logout' %}" method="post" class="logout-form">
-                      {% csrf_token %}
-                      <button type="submit" class="logout-button">
-                        <img src="{% static 'Images/log-out.png' %}" width="40" alt="Logout">
-                      </button>
-                    </form>
-                {% else %}
-                  <div>
-                    <a href="{% url 'login' %}">
-                      <img src="{% static 'Images/enter.png' %}" width="40" alt="Login">
-                    </a>
-                  </div>
-                {% endif %}
-              </div>
+                <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'Images/navbar-icon.jpg' %}" id="nav-icon" alt=""></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'catalogue' %}">Catálogo</a>
+                        </li>                    
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Registrar usuario</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'carrito' %}">Carrito de compras</a>
+                        </li>
+                    </ul>
+                    {% if user.is_authenticated %}
+                        <div>Bienvenido, {{ user.get_username }}.</div>
+                        <form action="{% url 'logout' %}" method="post" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-button">
+                                <img src="{% static 'Images/log-out.png' %}" width="40" alt="Logout">
+                            </button>
+                        </form>
+                    {% else %}
+                        <div>
+                            <a href="{% url 'login' %}">
+                                <img src="{% static 'Images/enter.png' %}" width="40" alt="Login">
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-          </nav>
+        </nav>
     </div>
 
     <h1 id="catalogue-title">Catálogo</h1>
     
-    {% if books %}
+    {% if not user.is_superuser %}
+        <div class="currency-toggle">
+            <form method="get" action="">
+                <button type="submit" name="currency" class="currency-btn" value="{% if currency == 'CLP' %}USD{% else %}CLP{% endif %}">
+                    Mostrar precios en {% if currency == 'CLP' %}USD{% else %}CLP{% endif %}
+                </button>
+            </form>
+        </div>
+    {% endif %}
+    
+    {% if book_data %}
     <div class="book-container">
-
-        {% for book in books %}
+        {% for item in book_data %}
             <div class="book-item">
-              {% if book.cover_image %}
-              <div class="cover">
-                  <img src="{{ book.cover_image.url }}" alt="{{ book.title }} cover image">
-              </div>
-          {% else %}
-              <div class="cover">
-                  <img src="{% static 'Images/no-cover.jpg' %}" alt="No cover">
-              </div>
-          {% endif %}
-                <h2>{{ book.title }}</h2>
-                <div class="price">{{ book.price }}</div>
-
-                <p><a href="{% url 'detalle_libro' book.id %}">Detalle</a></p>
-
-                {% if user.is_authenticated and user.is_superuser %}
-                    <p><a href="{% url 'eliminar_libro' book.id %}">Eliminar</a></p>
-                    <p><a href="{% url 'actualizar_libro' book.id %}">Actualizar</a></p>
+                {% if item.book.cover_image %}
+                <div class="cover">
+                    <img src="{{ item.book.cover_image.url }}" alt="{{ item.book.title }} cover image">
+                </div>
+                {% else %}
+                <div class="cover">
+                    <img src="{% static 'Images/no-cover.jpg' %}" alt="No cover">
+                </div>
                 {% endif %}
-
+                <h2>{{ item.book.title }}</h2>
+                <div class="price">
+                    {% if currency == 'CLP' %}
+                        {{ item.book.price }} CLP
+                    {% else %}
+                        {{ item.price_in_usd|floatformat:2 }} USD
+                    {% endif %}
+                </div>
+                <p><a href="{% url 'detalle_libro' item.book.id %}">Detalle</a></p>
+                {% if user.is_authenticated and user.is_superuser %}
+                    <p><a href="{% url 'eliminar_libro' item.book.id %}">Eliminar</a></p>
+                    <p><a href="{% url 'actualizar_libro' item.book.id %}">Actualizar</a></p>
+                {% endif %}
                 {% if not user.is_superuser %}
-                    <form action="{% url 'agregar_al_carrito' book.id %}" method="post">
+                    <form action="{% url 'agregar_al_carrito' item.book.id %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="addCart">Agregar al carrito</button>
                     </form>
                 {% endif %}
             </div>
         {% endfor %}
-
     </div>
-
     {% else %}
         <p>No books available.</p>
     {% endif %}
@@ -94,7 +105,7 @@
             <a href="{% url 'agregar_libro' %}">Agregar libro</a>
         </div>
     {% endif %}
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
