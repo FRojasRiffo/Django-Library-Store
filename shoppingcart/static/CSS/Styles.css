@@ -143,7 +143,7 @@ body{
 
 /* Shopping Cart */
 
-.cart-total, .cart-title{
+.cart-total, .cart-title, .discount-info{
   text-align: center;
   margin-top: 1%;
   margin-bottom: 1%;
@@ -241,4 +241,10 @@ button.btn-login, button.btn-register{
   text-align: center;
   margin-top: 1%;
   margin-bottom: 1%;
+}
+
+.addBook{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

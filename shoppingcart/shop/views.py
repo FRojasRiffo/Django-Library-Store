@@ -1,7 +1,9 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from .forms import BookForm, RegistrationForm
 from .models import Book
 import requests
+from django.contrib.auth import authenticate, login
 
 def index(request):
     return render(request, 'shop/index.html')
@@ -37,8 +39,8 @@ def catalogue(request):
     return render(request, 'shop/catalogue.html', context)
 
 
-def login(request):
-    return render(request, 'shop/login.html')
+# def login(request):
+#     return render(request, 'shop/login.html')
 
 def register(request):
     return render(request, 'shop/register.html')
@@ -145,3 +147,28 @@ def registrar_usuario(request):
         form = RegistrationForm()
     
     return render(request, 'shop/register.html', {'form': form})
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            return render(request, 'registration/login.html', {'error': 'Usuario o contraseña incorrecta'})
+    return render(request, 'registration/login.html')
+
+# def login_view(request):
+#     if request.method == "POST":
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None:
+#             login(request, user)
+#             return JsonResponse({'success': True, 'redirect_url': '/index/'})
+#         else:
+#             return JsonResponse({'success': False, 'error': 'Usuario o contraseña incorrecta'})
+#     return render(request, 'login.html')
+

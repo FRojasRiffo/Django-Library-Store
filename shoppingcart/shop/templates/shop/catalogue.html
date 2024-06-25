@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogue</title>
+    <title>Catálogo</title>
     <link rel="icon" type="image/x-icon" href="{% static 'Images/Book.png' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'CSS/Styles.css'%}">
@@ -21,16 +21,20 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{% url 'catalogue' %}">Catálogo</a>
-                        </li>                    
+                        </li>
+                        {% if not user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'register' %}">Registrar usuario</a>
                         </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'carrito' %}">Carrito de compras</a>
                         </li>
                     </ul>
                     {% if user.is_authenticated %}
-                        <div>Bienvenido, {{ user.get_username }}.</div>
+                        <div>
+                            Bienvenido, {{ user.get_username }}.
+                        </div>
                         <form action="{% url 'logout' %}" method="post" class="logout-form">
                             {% csrf_token %}
                             <button type="submit" class="logout-button">
@@ -88,7 +92,7 @@
                     <p><a href="{% url 'actualizar_libro' item.book.id %}">Actualizar</a></p>
                 {% endif %}
                 {% if not user.is_superuser %}
-                    <form action="{% url 'agregar_al_carrito' item.book.id %}" method="post">
+                    <form action="{% url 'agregar_al_carrito' item.book.id %}" method="post" class="add-to-cart-form">
                         {% csrf_token %}
                         <button type="submit" class="addCart">Agregar al carrito</button>
                     </form>
@@ -105,7 +109,26 @@
             <a href="{% url 'agregar_libro' %}">Agregar libro</a>
         </div>
     {% endif %}
+
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Producto agregado al carrito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    El producto ha sido agregado a su carrito de compras.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <a href="{% url 'carrito' %}" class="btn btn-primary">Ir al carrito</a>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'JS/catalogueFunctionalities.js' %}"></script>
 </body>
 </html>
