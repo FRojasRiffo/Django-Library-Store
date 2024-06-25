@@ -11,11 +11,11 @@ class Book(models.Model):
     def __str__(self):
         return self.title
     
-    def delete(self, *args, **kwargs):
+    def delete(self):
         if self.cover_image:
             if os.path.isfile(self.cover_image.path):
                 os.remove(self.cover_image.path)
-        super().delete(*args, **kwargs)
+        super().delete()
 
 class User(models.Model):
     username = models.CharField(max_length=50)
